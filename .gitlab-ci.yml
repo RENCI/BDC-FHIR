@@ -1,0 +1,21 @@
+stages:
+  - dependabot
+
+.dependabot:
+  image:
+    name: docker.io/andrcuns/dependabot-gitlab-maven:latest
+    entrypoint: [""]
+  variables:
+    GIT_STRATEGY: none
+    SETTINGS__GITLAB_URL: $CI_SERVER_URL
+    SETTINGS__STANDALONE: "true"
+  before_script:
+    - cd /home/dependabot/app
+  script:
+    - bundle exec rake "dependabot:update[$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME,maven,/]"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $SCHEDULE_NAME == "dependabot"'
+
+maven:
+  extends: .dependabot
+  stage: dependabot
