@@ -177,5 +177,5 @@ Temporary Items
 tomcat_app/tomcat-users.xml
 HowToBuildApp.txt
 src/main/resources/prod_application.yaml
-src/main/resources/dev_application.yaml
+src/main/resources/staging_application.yaml
 
