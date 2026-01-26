@@ -1,20 +1,20 @@
-FROM bitnami/tomcat:9.0 AS tomcat
+FROM tomcat:9.0-jdk11 AS tomcat
 
-RUN rm -rf /opt/bitnami/tomcat/webapps/ROOT && \
-    mkdir -p /opt/bitnami/hapi/data/hapi/lucenefiles && \
-    chmod 775 /opt/bitnami/hapi/data/hapi/lucenefiles
-#WORKDIR /app
+# Create a non-root user similar to Bitnami's UID 1001
+RUN groupadd -g 1001 tomcat \
+ && useradd -u 1001 -g tomcat -s /bin/bash -m tomcat
 
-#ARG OPENTELEMETRY_JAVA_AGENT_VERSION=1.31.0
-#RUN curl -LSsO https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v${OPENTELEMETRY_JAVA_AGENT_VERSION}/opentelemetry-javaagent.jar
-USER root
-RUN mkdir -p /target && chown -R 1001:1001 target
+# Prepare writable directories
+RUN mkdir -p /target \
+ && chown -R 1001:1001 /target /usr/local/tomcat
+
 USER 1001
 
-COPY --chown=1001:1001 catalina.properties /opt/bitnami/tomcat/conf/catalina.properties
-COPY --chown=1001:1001 server.xml /opt/bitnami/tomcat/conf/server.xml
-COPY --chown=1001:1001 ROOT.war /opt/bitnami/tomcat/webapps/ROOT.war
-#COPY --chown=1001:1001 opentelemetry-javaagent.jar /app
-ENV ALLOW_EMPTY_PASSWORD=yes
-#EXPOSE 8080 5432
+# Copy Tomcat configuration
+COPY catalina.properties /usr/local/tomcat/conf/catalina.properties
+COPY server.xml /usr/local/tomcat/conf/server.xml
+
+# Deploy application
+COPY ROOT.war /usr/local/tomcat/webapps/ROOT.war
+
 EXPOSE 8080

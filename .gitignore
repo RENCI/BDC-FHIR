@@ -175,3 +175,4 @@ Temporary Items
 !.elasticbeanstalk/*.global.yml
 
 tomcat_app/tomcat-users.xml
+HowToBuildApp.txt
