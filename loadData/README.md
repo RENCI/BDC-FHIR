@@ -44,4 +44,30 @@ The script will:
 
 ---
 
+# FHIR Staging Data Validation Script
+
+A Powershell script for verifying FHIR data in the staging environment prior to pushing to production.
+
+---
+## Configuration
+
+The script is configured via environment variables at the top of the powershell file. To create the CSV file needed - paste the Ids and Names that you are interested in into columns with the names Accession and a second column with the Name for each study. 
+
+### Required Environment Variables
+
+| Variable | Description |
+|---|---|
+| `csvFile` | A csv file with the list of ids that you want to check |
+| `url` | Base URL for the staging FHIR server  |
+
+## Usage
+
+```bash
+ .\testFHIRPhysNumbers.ps1
+```
+
+The script will:
+1. Query staging for each of the ids and return whether or not they are found or missing. 
+
+---
 
