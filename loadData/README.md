@@ -41,31 +41,7 @@ The script will:
 3. Read resources from staging
 4. Write resources to production
 
----
-
-## Security Notes
-
-- **Never commit credentials** — add `.env` to your `.gitignore`
-- Treat `CLIENT_SECRET` values like passwords; rotate them if they are ever exposed
-- Use short-lived tokens and ensure the auth URLs support token expiry/refresh as needed
-- Restrict production credentials to the minimum required FHIR scopes
 
 ---
 
-## Troubleshooting
-
-**Authentication errors**
-Verify that `AUTH_URL`, `CLIENT_ID`, and `CLIENT_SECRET` are correct for the target environment. Confirm the client has the required OAuth scopes.
-
-**Connection errors**
-Check that `BASE_FHIR_URL` does not have a trailing slash and is reachable from your network.
-
-**Missing environment variables**
-The script will exit with a clear error message listing any unset required variables. Double-check your `.env` file or shell exports.
-
----
-
-## License
-
-[Add your license here]
 
